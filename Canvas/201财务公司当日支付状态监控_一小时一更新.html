@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        title: [{
+          text: '财务公司当日支付状态监控',
+          left: 'center',
+          textStyle: {
+            color: "white"
+          }
+        }, ],
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          left: '0%',
+          top: '0%',
+          //backgroundColor: 'white',
+          orient: 'horizontal',
+          data: ['计划值', '实际值'],
+          textStyle: {
+            color: "#fff"
+          },
+        },
+        // toolbox: {
+        //     show: true,
+        //     feature: {
+        //         dataZoom: {
+        //             yAxisIndex: 'none'
+        //         },
+        //         dataView: {readOnly: false},
+        //         magicType: {type: ['line', 'bar']},
+        //         restore: {},
+        //         saveAsImage: {}
+        //     }
+        // },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['8:00','9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
+          axisPointer: {
+            type: 'shadow'
+          },
+          //name:'月份',
+          //nameTextStyle:{
+          //color:"white",//坐标轴名称颜色
+          //fontSize:12,//坐标轴名称文字大小
+          //},
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            //symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+          axisLabel: {
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+        },
+        yAxis: {
+          type: 'value',
+          name:"金额(亿元)",
+          axisLabel: {
+            formatter: '{value}', //字符格式化
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+          nameTextStyle: {
+            color: "white", //坐标轴名称颜色
+            fontSize: 12, //坐标轴名称文字大小
+          },
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            symbol: ['none', 'arrow'], //只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+        },
+        series: [{
+            name: '计划值',
+            type: 'line',
+            lineStyle: {
+              normal: {
+                color:'red',
+                width: 4, //线条宽度
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white' //文字颜色
+              }
+            },
+            data: [10,10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+          },
+          {
+            name: '实际值',
+            type: 'line',
+            lineStyle: {
+              normal: {
+                color:'blue',
+                width: 4
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white' ////文字颜色
+              }
+            },
+            areaStyle: {
+              normal: {
+                opacity: 0.3, //区域颜色透明度
+                color: 'blue', //区域颜色
+              }
+            },
+            data: [1.5,2.8, 4, 6, 6, 7, 8, 10, 11, 12, 13],
+          }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      //    var timer = 0;
+      //
+      //    var total = option.xAxis[0].data.length;
+      //    var count = 0;
+      //    //var tooltip = myChart.component.tooltip;
+      //    var mTime = setInterval(function() {
+      //      myChart.dispatchAction({
+      //        type: 'showTip',
+      //        seriesIndex: 0,
+      //        dataIndex: count
+      //      });
+      //      count++;
+      //      if(count > total) {
+      //        count = 0;
+      //
+      //      }
+      //      if(option.series[0].data[count] == null) {
+      //        count = 0;
+      //      }
+      //    }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

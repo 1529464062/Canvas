@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        title: [{
+          text: '2018年资金资金流入流出及结算率监控',
+          left: 'center',
+          textStyle: {
+            color: "white"
+          }
+        }, ],
+        tooltip: {
+          trigger: 'axis',
+        },
+        // toolbox: {
+        //     feature: {
+        //         dataView: {show: true, readOnly: false},
+        //         magicType: {show: true, type: ['line', 'bar']},
+        //         restore: {show: true},
+        //         saveAsImage: {show: true}
+        //     }
+        // },//工具栏
+        legend: {
+          left: '30%',
+          top: '5%',
+          //backgroundColor: 'white',
+          textStyle: {
+            color: "white"
+          },
+          orient: 'horizontal', //'vertical',//,
+          data: ['集团资金流出', '财务公司资金流出', '结算率']
+        },
+        xAxis: [{
+          type: 'category',
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+          axisPointer: {
+            type: 'shadow'
+          },
+          //name:'月份',
+          //nameTextStyle:{
+          //color:"white",//坐标轴名称颜色
+          //fontSize:12,//坐标轴名称文字大小
+          //},
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            //symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+          axisLabel: {
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+        }, ],
+        yAxis: [{
+            type: 'value',
+            name: '金额(亿元)',
+            //min: 0,
+            //max: 250,
+            //interval: 50,
+            axisLabel: {
+              formatter: '{value}', //字符格式化
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+            nameTextStyle: {
+              color: "white", //坐标轴名称颜色
+              fontSize: 12, //坐标轴名称文字大小
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              symbol: ['none', 'arrow'], //只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+          },
+          {
+            type: 'value',
+            name: '结算率',
+            //min: 0,
+            //max: 25,
+            //interval: 5,
+            axisLabel: {
+              formatter: '{value} %', //字符格式化
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+            nameTextStyle: {
+              color: "white", //坐标轴名称颜色
+              fontSize: 12, //坐标轴名称文字大小
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              symbol: ['none', 'arrow'], //只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+          }
+        ],
+        series: [{
+            name: '集团资金流出',
+            type: 'bar',
+            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+            itemStyle: {
+              normal: {
+                color: 'yellow', //设置这一类柱条的颜色
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white', //文字的颜色
+                fontSize: 15, //文字的大小
+                position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#B5C4DB', //设置这一类柱条的颜色
+              }
+            },
+          },
+          {
+            name: '财务公司资金流出',
+            type: 'bar',
+            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],            
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white', //文字的颜色
+                fontSize: 15, //文字的大小
+                position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#7E9BC7', //设置这一类柱条的颜色
+              }
+            },
+          },
+          {
+            name: '结算率',
+            type: 'line',
+            yAxisIndex: 1,
+            data: [80, 85, 83, 95, 83, 82, 80.3, 83.4, 89.5, 96.5, 82.0, 72],
+            itemStyle: {
+              normal: {
+                color: 'blue', //设置这一类柱条的颜色
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white', //文字的颜色
+                fontSize: 15, //文字的大小
+                position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+                formatter: function(params) {　　　　　　
+                  if(params.value) {　　　　　　　　
+                    return params.value + '%'　　　　　　
+                  } else {　　　　　　　　
+                    return '';　　　　　　
+                  }　　　　
+                }
+              }
+            }
+          }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      var timer = 0;
+
+      var total = option.xAxis[0].data.length;
+      var count = 0;
+      //var tooltip = myChart.component.tooltip;
+      var mTime = setInterval(function() {
+        myChart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: count
+        });
+        count++;
+        if(count > total) {
+          count = 0;
+
+        }
+        if(option.series[0].data[count] == null) {
+          count = 0;
+        }
+      }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+      /*总控制，可忽略此行*/
+      
+      table {
+        width: 800px;
+      }
+      
+      table thead {
+        background-color: #1f1f44;
+      }
+      
+      table tr:first-child {
+        background: #1e1e44;
+        color: #fff;
+        font-weight: bold;
+      }
+      /*第一行标题蓝色背景*/
+      
+      table {
+        background: #1e1e44;
+        color: #fff;
+        border-top: 1pt solid #1e1e44;
+        border-left: 1pt solid #1e1e44;
+        //margin: 0 auto;
+      }
+      
+      td {
+        /*background: #1e1e44;*/
+        padding: 5px 10px;
+        color: #fff;
+        text-align: center;
+        border-right: 1pt solid #1e1e44;
+        border-bottom: 1pt solid #1e1e44;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <td style="background-color: #2f2f44;">付款单位</td>
+          <td style="background-color: #2f2f44;">付款账户</td>
+          <!--<td style="background-color: #2f2f44;">收款单位</td>
+          <td style="background-color: #2f2f44;">收款账户</td>-->
+          <td style="background-color: #2f2f44;">金额</td>
+          <td style="background-color: #2f2f44;">原因</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>中天建设国际集团</td>
+          <td>2515846484641654684651684</td>
+          <!--<td>神州梦想国际</td>
+          <td>6544686498658494</td>-->
+          <td>500,000,000.00</td>
+          <td>含有"烟"</td>
+        </tr>
+        <tr>
+          <td>神州梦想国际</td>
+          <td>6544686498658494</td>
+          <!--<td>中天建设国际集团</td>
+          <td>2515846484641654684651684</td>-->
+          <td>10,000,000.00</td>
+          <td>含有"酒"</td>
+        </tr>
+      </tbody>
+    </table>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        title: [{
+          text: '敏感数据监控',
+          left: 'center',
+          textStyle: {
+            color: "white"
+          }
+        }, ],
+        tooltip: {
+          trigger: 'axis',
+        },
+        // toolbox: {
+        //     feature: {
+        //         dataView: {show: true, readOnly: false},
+        //         magicType: {show: true, type: ['line', 'bar']},
+        //         restore: {show: true},
+        //         saveAsImage: {show: true}
+        //     }
+        // },//工具栏
+        legend: {
+          left: '43%',
+          top: '5%',
+          //backgroundColor: 'white',
+          orient: 'horizontal',
+          data: ['金额', '笔数'],
+          textStyle: {
+            color: "#fff"
+          },
+        },
+        xAxis: [{
+          type: 'category',
+          data: ['发起支付', '支付预警'],
+          axisPointer: {
+            type: 'shadow'
+          },
+          //name:'月份',
+          //nameTextStyle:{
+          //color:"white",//坐标轴名称颜色
+          //fontSize:12,//坐标轴名称文字大小
+          //},
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            //symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+          axisLabel: {
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+        }, ],
+        yAxis: [{
+            type: 'value',
+            name: '金额(亿元)',
+            //min: 0,
+            //max: 250,
+            //interval: 50,
+            axisLabel: {
+              formatter: '{value}', //字符格式化
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+            nameTextStyle: {
+              color: "white", //坐标轴名称颜色
+              fontSize: 12, //坐标轴名称文字大小
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              symbol: ['none', 'arrow'], //只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+          },
+          {
+            type: 'value',
+            name: '笔数(笔)',
+            //min: 0,
+            //max: 25,
+            //interval: 5,
+            axisLabel: {
+              formatter: '{value}', //字符格式化
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+            nameTextStyle: {
+              color: "white", //坐标轴名称颜色
+              fontSize: 12, //坐标轴名称文字大小
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              symbol: ['none', 'arrow'], //只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+          }
+        ],
+        series: [{
+            name: '金额',
+            type: 'bar',
+            barWidth: 50,
+            //stack:'直连-非直连',
+            data: [30000, 10000],
+            itemStyle: {
+              normal: {
+                color: '#B5C4DB', //设置这一类柱条的颜色
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white', //文字的颜色
+                fontSize: 15, //文字的大小
+                position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+              }
+            }
+          },
+          {
+            name: '笔数',
+            type: 'bar',
+            barWidth: 50,
+            yAxisIndex: 1,
+            //stack:'直连-非直连',
+            data: [10, 30],
+            itemStyle: {
+              normal: {
+                color: '#7E9BC7', //设置这一类柱条的颜色
+              }
+            },
+            label: {
+              normal: {
+                show: true, //是否显示文字
+                color: 'white', //文字的颜色
+                fontSize: 15, //文字的大小
+                position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+              }
+            }
+          },
+          //        {
+          //          name: '资产负债率',
+          //          type: 'line',
+          //          yAxisIndex: 1,
+          //          data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2],
+          //          itemStyle: {
+          //            normal: {
+          //              color: 'blue', //设置这一类柱条的颜色
+          //            }
+          //          },
+          //          label: {
+          //            normal: {
+          //              show: true, //是否显示文字
+          //              color: '#ff0', //文字的颜色
+          //              fontSize: 15, //文字的大小
+          //              position: 'top', //显示的位置，可查看：http://www.echartsjs.com/gallery/view.html?c=doc-example/label-position
+          //            }
+          //          }
+          //        }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      //    var timer = 0;
+      //
+      //    var total = option.xAxis[0].data.length;
+      //    var count = 0;
+      //    //var tooltip = myChart.component.tooltip;
+      //    var mTime = setInterval(function() {
+      //      myChart.dispatchAction({
+      //        type: 'showTip',
+      //        seriesIndex: 0,
+      //        dataIndex: count
+      //      });
+      //      count++;
+      //      if(count > total) {
+      //        count = 0;
+      //
+      //      }
+      //      if(option.series[0].data[count] == null) {
+      //        count = 0;
+      //      }
+      //    }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

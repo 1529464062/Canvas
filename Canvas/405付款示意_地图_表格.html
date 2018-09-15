@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>河北省</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/河北省/河北省.js"></script>
+  </head>
+
+  <body>
+    <div id="c1_div" style="width: 1000px;height:900px;"></div>
+    <table border="1" cellspacing="1" cellpadding="1" style="position: absolute;left: 700px;top: 700px;width: 300px;height: 200px;text-align: center;border-color: #000000;font-size: 20px;color: white;">
+      <tr>
+        <td>付款地</td>
+        <td>石家庄</td>
+      </tr>
+      <tr>
+        <td>付款单位</td>
+        <td>石家庄建设局</td>
+      </tr>
+      <tr>
+        <td>收款地</td>
+        <td>邢台</td>
+      </tr>
+      <tr>
+        <td>收款单位</td>
+        <td>邢台国土资源局</td>
+      </tr>
+      <tr>
+        <td>交易金额(元)</td>
+        <td>100,000,000.00</td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      var c1_myChart = echarts.init(document.getElementById('c1_div'));
+      var uploadedDataURL = "json/河北省/河北省.json";
+      c1_myChart.showLoading();
+      $.getJSON(uploadedDataURL, function(geoJson) {
+        echarts.registerMap('HB', geoJson);
+        c1_myChart.hideLoading();
+        var option = {
+          backgroundColor: '#1e1e44',
+          title: {
+            text: '大额交易监控',
+            left: 'center',
+            top: 10,
+            textStyle: {
+              fontSize: 24,
+              color: 'white'
+            }
+          },
+          geo: {
+            silent: false,
+            map: 'HB',
+            label: {
+              normal: {
+                show: true,
+                color: 'white',
+                fontSize: 15
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            itemStyle: {
+              hoverAnimation: false,
+              normal: {
+                areaColor: '#323c48',
+                borderColor: '#000'
+              },
+              emphasis: {
+                areaColor: '#2a333d',
+                opacity: 0
+              }
+            }
+          },
+          series: [{
+            name: '服务网点',
+            type: 'scatter',
+            coordinateSystem: 'geo', //参照系：之前设置的geo。
+            //这里是api数据接受的的地方
+            data: [{name:'石家庄',value:[[114.48,37.05],100]}],
+            symbolSize: 3, //散点半径
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            hoverAnimation: false,
+            silent: false,
+            animation: false,
+            z: 3
+          }]
+          //        series: [{
+          //          name: '纯河北地图',
+          //          type: 'map',
+          //          mapType: 'HB', // 自定义扩展图表类型
+          //          roam: true,
+          //          label: {
+          //            normal: {
+          //              show: true
+          //            },
+          //            emphasis: {
+          //              show: true
+          //            }
+          //          },
+          //          tooltip: {
+          //            trigger: 'item',
+          //            formatter: function(params) {
+          //              console.log(params);
+          //              return JSON.stringify(params.data);
+          //            }
+          //          },
+          //          emphasis: {
+          //            label: {
+          //              show: true,
+          //              formatter: function(params) {
+          //                console.log(params);
+          //                return JSON.stringify(params.data);
+          //              }
+          //            }
+          //          },
+          //          data: [{
+          //            name: "石家庄市",
+          //            value: 11,
+          //            //selected:true,
+          //            color: "#444",
+          //            itemStyle: {
+          //              areaColor: "#fff",
+          //              color: '#888',
+          //              normal: {
+          //                label: {
+          //                  show: true
+          //                }
+          //              }
+          //            }
+          //          }]
+          //        }]
+        }
+        c1_myChart.setOption(option);
+      });
+    </script>
+  </body>
+
+</html>

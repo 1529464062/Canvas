@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {
+              pixelRatio: 5
+            }
+          }
+        },
+        title: [{
+            text: '2018年8月17日集团存款余额实时监控',
+            left: 'center',
+            textStyle: {
+              color: "white"
+            }
+          },
+          // {
+          //     subtext: '这个图反映的是储蓄缺口（两根折线\n之间的阴影部分）和净出口的关系',
+          //     subtextStyle:{
+          //         fontStyle:'bold'
+          //     },
+          //     left: 100,
+          //     top:400
+          // },
+        ],
+        tooltip: {
+          trigger: 'axis',
+          formatter: function(data) {
+            var XValue = data[0]["axisValue"];
+            var AName = data[0]["seriesName"];
+            var AValue = data[0]["value"];
+            //          var BName = data[1]["seriesName"];
+            //          var BValue = data[1]["value"];
+            return XValue + '<br/>' + AName + ':' + AValue;
+          }
+          //formatter:'{b}<br/>{a0}  : {c0}%<br/>{a1}  :{c1}%<br/>资金差值  : {c0}-{c1} 千亿美元'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+          data: ['集团存款余额'],
+          textStyle: {
+            color: "white"
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          // name: 'Year',
+          // axisTick: {
+          //     alignWithLabel: true,
+          //     interval: 0
+          // },
+          // nameLocation:'bottom',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            //symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+          axisLabel: {
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+          data: ["8:00","8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"],
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '15%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        yAxis: [{
+          name:"金额(亿元)",
+            type: 'value',
+            scale: true,
+            //min: 0,
+            splitLine: {
+              show: true
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              //symbol:['none', 'arrow'],//只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+            axisLabel: {
+              formatter: '{value}',
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+          },
+          // {
+          //     type: 'value',
+          //     name: '千亿美元',
+          //     //max:20,
+          //     splitLine: {
+          //         show: false
+          //     }
+          // }
+        ],
+        series: [{
+            name: '集团存款余额',
+            type: 'line',
+            //stack: '总量',
+            smooth: true,
+            label: {
+              normal: {
+                show: true,
+                color: 'white'
+              }
+            },
+            areaStyle: {
+              normal: {
+                color:'blue',
+                opacity: 0.3
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 4,
+                color:'blue'
+              }
+            },
+            //data: [20, 1, 20, 20, 17.85, 18.73, 19.6, 20.79, 21.34, 20.91, 20.77, 19.63, 18.3, 17.47, 17.66, 18.04, 19.31, 17.51, 15.67, 14.57, 15.32, 15.95, 17.98, 18.54],
+            data: [40,50, 100, 10, 50, 70, 90, 50, 20, 200, null],
+          },
+          //        {
+          //          name: '财务公司存款余额',
+          //          type: 'line',
+          //          yAxisIndex: 0,
+          //          // markArea: {
+          //          //     zlevel:3,
+          //          //     data: [[{
+          //          //         name: '中层',
+          //          //         xAxis: 2000,
+          //          //     }, {
+          //          //         xAxis: 2016,
+          //          //     }]]
+          //          // },
+          //          smooth: true,
+          //          //stack: '总量',
+          //          areaStyle: {
+          //            normal: {
+          //              opacity: 0.3
+          //            }
+          //          },
+          //          //          lineStyle: {
+          //          //              normal: {
+          //          //                  type: 'dashed',
+          //          //              },
+          //          //          },
+          //          //data: [1, 19, 1, 1, 3.36, 2.47, 2.03, 1.57, 1.51, 2.41, 2.8, 2.43, 3.28, 4.19, 4.86, 5.18, 4.02, 4.84, 5.11, 2.94, 3.08, 2.59, 1.37, 1.22],
+          //          data: [1, 19, 1, 1, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+          //        },
+
+          // {
+          //     name: '净出口（右轴）',
+          //     type: 'bar',
+          //     itemStyle: {
+          //         opacity: 0.3
+          //     },
+          //     yAxisIndex: 0,
+          //     //         markArea:{
+          //     //             data:[
+          //     //     {
+          //     //         name: '两个屏幕坐标之间的标域',
+          //     //         x: '100',
+          //     //         y: '100'
+          //     //     }, {
+          //     //         x: '90%',
+          //     //         y: '10%'
+          //     //     }
+          //     // ]z
+          //     //         },
+          //     data: [10,  20, 30, -0.85, -1.22, -1.14, -1.25, -1.41, -2.15,
+          // -2.88, -4.03, -3.9 , -4.51, -5.19, -6.32, -7.45, -8.06, -7.11,
+          // -6.81, -3.73, -4.31, -4.45, -4.26, -3.5 , -3.74, -4.35, -4.52],
+          // },
+          // {
+          //     name: '1/2的指数',
+          //     type: 'line',
+          //     data: [1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/256, 1/512]
+          // }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      //    var timer = 0;
+      //
+      //    var total = option.xAxis.data.length;
+      //    var count = 0;
+      //    //var tooltip = myChart.component.tooltip;
+      //    var mTime = setInterval(function() {
+      //      myChart.dispatchAction({
+      //        type: 'showTip',
+      //        seriesIndex: 0,
+      //        dataIndex: count
+      //      });
+      //      count++;
+      //      if(count > total) {
+      //        count = 0;
+      //
+      //      }
+      //      if(option.series[0].data[count] == null) {
+      //        count = 0;
+      //      }
+      //    }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

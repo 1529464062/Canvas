@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+      body {
+        font-family: Arial;
+        font-size: 20px;
+        /*line-height: 180%;*/
+        padding-top: 20px;
+      }
+      /*总控制，可忽略此行*/
+      
+      table thead {
+        background-color: #1f1f44;
+      }
+      
+      table tr:first-child {
+        background: #1e1e44;
+        color: #fff;
+        font-weight: bold;
+      }
+      /*第一行标题蓝色背景*/
+      
+      table {
+        background: #1e1e44;
+        color: #fff;
+        border-top: 1pt solid #1e1e44;
+        border-left: 1pt solid #1e1e44;
+        margin: 0 auto;
+      }
+      
+      td {
+        /*background: #1e1e44;*/
+        padding: 5px 10px;
+        color: #fff;
+        text-align: center;
+        border-right: 1pt solid #1e1e44;
+        border-bottom: 1pt solid #1e1e44;
+      }
+      
+      .divWarning {
+        height: 320px;
+        overflow: hidden;
+      }
+      /*tr:nth-of-type(odd) {
+        background: #1e1e44
+      }*/
+      /* odd 标识奇数行，even标识偶数行 */
+      /*tr:hover {
+        background: #1e1e44;
+      }*/
+      /*鼠标悬停后表格背景颜色*/
+    </style>
+  </head>
+
+  <body>
+    <div class="divWarning">
+      <div>
+        <table border="" cellspacing="" cellpadding="" id="gdtable">
+          <thead style="background-color: #2f2f44;">
+            <tr style="background-color: #2f2f44;">
+              <td style="background-color: #2f2f44;">公司</td>
+              <td style="background-color: #2f2f44;">资产总额</td>
+              <td style="background-color: #2f2f44;">负债总额</td>
+              <td style="background-color: #2f2f44;">净资产</td>
+              <td style="background-color: #2f2f44;">营业收入</td>
+              <td style="background-color: #2f2f44;">利润总额</td>
+              <td style="background-color: #2f2f44;">资产负债率</td>
+              <td style="background-color: #2f2f44;">ROE</td>
+              <td style="background-color: #2f2f44;">ROA</td>
+            </tr>
+          </thead>
+          <tbody class="layui-table">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      var max = 5000; //只显示高于这个值的
+      //fkgs：付款公司      
+      var data = [{
+        "fkgs": "石家庄国融安能分布能源技术有限公司",
+        "zcze": 1500,
+        'fzze': 2050,
+        'jzc': 800540,
+        'yysr': 94000,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投交通投资有限责任公司",
+        "zcze": 1500,
+        'fzze': 2070,
+        'jzc': 80050,
+        'yysr': 90400,
+        'lrze': 70600,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "邯黄铁路有限责任公司",
+        "zcze": 1040,
+        'fzze': 2050,
+        'jzc': 80020,
+        'yysr': 90600,
+        'lrze': 70040,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "秦皇岛秦山化工港务有限责任公司",
+        "zcze": 1050,
+        'fzze': 2050,
+        'jzc': 804800,
+        'yysr': 90200,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投沙河发电有限责任公司",
+        "zcze": 1050,
+        'fzze': 2500,
+        'jzc': 80020,
+        'yysr': 90400,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投能源投资股份有限公司国际大厦酒店",
+        "zcze": 100,
+        'fzze': 200,
+        'jzc': 80500,
+        'yysr': 906800,
+        'lrze': 70800,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "廊坊市清泉供水有限责任公司",
+        "zcze": 1060,
+        'fzze': 2040,
+        'jzc': 80050,
+        'yysr': 90400,
+        'lrze': 70050,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投宝塑管业有限公司",
+        "zcze": 1040,
+        'fzze': 2050,
+        'jzc': 80080,
+        'yysr': 90900,
+        'lrze': 70040,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "邯黄铁路有限责任公司",
+        "zcze": 1400,
+        'fzze': 2500,
+        'jzc': 80600,
+        'yysr': 90040,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投路劲城镇化建设开发有限公司",
+        "zcze": 1400,
+        'fzze': 2500,
+        'jzc': 80800,
+        'yysr': 90800,
+        'lrze': 70600,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "邯黄铁路有限责任公司",
+        "zcze": 1400,
+        'fzze': 2060,
+        'jzc': 80050,
+        'yysr': 90400,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "河北建投路劲城镇化建设开发有限公司",
+        "zcze": 1500,
+        'fzze': 2040,
+        'jzc': 80600,
+        'yysr': 90400,
+        'lrze': 70500,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }, {
+        "fkgs": "邯黄铁路有限责任公司",
+        "zcze": 1050,
+        'fzze': 2040,
+        'jzc': 80050,
+        'yysr': 90500,
+        'lrze': 70600,
+        'zcfzl': 0.98,
+        'roe': 0.85,
+        'roa': 0.99
+      }];
+
+      function number_format(number, decimals, dec_point, thousands_sep) {
+        /*
+         * 参数说明：
+         * number：要格式化的数字
+         * decimals：保留几位小数
+         * dec_point：小数点符号
+         * thousands_sep：千分位符号
+         * */
+        number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.ceil(n * k) / k;
+          };
+
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        var re = /(-?\d+)(\d{3})/;
+        while(re.test(s[0])) {
+          s[0] = s[0].replace(re, "$1" + sep + "$2");
+        }
+
+        if((s[1] || '').length < prec) {
+          s[1] = s[1] || '';
+          s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+      }
+      var baifenhua = function(val){
+        val = val * 100;
+        return number_format(val,2,'.',',')+'%';
+      }
+      var render = function(_data) {
+        $("table[id='gdtable'] tbody").empty();
+        _data.forEach(function(item) {
+          //if(parseFloat(item["je"]) > max) {
+          var tr = document.createElement("tr");
+          for(var key in item) {
+            var td = document.createElement("td");
+            if(key=='zcze'||key=='fzze'||key=='jzc'||key=='yysr'||key=='lrze'){
+              td.innerText = number_format(item[key],2,'.',',');
+            }else{
+              if(key == 'zcfzl'||key=='roe'||key=='roa'){
+               td.innerText = baifenhua(item[key]); 
+              }else{
+                td.innerText = item[key];
+              }
+              
+            }
+            
+            tr.appendChild(td);
+          }
+          //          var td = document.createElement("td");
+          //          td.innerText = item["fkgs"];
+          //          tr.appendChild(td);
+          //
+          //          var td1 = document.createElement("td");
+          //          td1.innerText = item["fkzh"];
+          //          tr.appendChild(td1);
+          //
+          //          var td2 = document.createElement("td");
+          //          td2.innerText = item["skdw"];
+          //          tr.appendChild(td2);
+          //
+          //          var td3 = document.createElement("td");
+          //          td3.innerText = item["skzh"];
+          //          tr.appendChild(td3);
+          //
+          //          var td4 = document.createElement("td");
+          //          td4.innerText = item["zy"];
+          //          tr.appendChild(td4);
+          //
+          //          var td5 = document.createElement("td");
+          //          td5.innerText = item["je"];
+          //          tr.appendChild(td5);
+
+          $("table[id='gdtable'] tbody").append(tr);
+          //}
+        })
+      }
+      $(function() {
+        render(data);
+        var $this = $(".divWarning"); //获取 divWarning  （用来定位需要滚动的列表） 由于我生成的表格是使用layui框架生成的，所以需要在table外面嵌套一个div
+        var scrollTimer;
+        $this.hover(function() {
+          clearInterval(scrollTimer); //清除滚动
+        }, function() {
+          scrollTimer = setInterval(function() {
+            scrollNews($this);
+          }, 1000); //每条列表之间滚动的间隔请改此处数字，数值越大，间隔越长
+        }).trigger("mouseout");
+      });
+
+      function scrollNews(obj) {
+        var $layuitable = obj.find(".layui-table:last"); //定位滚动的dom
+        var lineHeight = 38; //因为行高是38px  (列表内容高38px)
+        $layuitable.animate({
+          "margin-top": -lineHeight + "px" //向上移动
+        }, 2000, function() { //每条新闻从出现到消失的时间请改此处数字，数值越小，消失的越快
+          $layuitable.css({
+            "margin-top": "0px" //移动到设定高度后更改最高的位置，获取第一行tr追加到tbody最后
+          }).find("tr:first").appendTo(obj.find("tbody:first"));
+        });
+      }
+    </script>
+  </body>
+
+</html>

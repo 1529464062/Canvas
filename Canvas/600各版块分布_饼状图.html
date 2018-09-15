@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 900px;
+        width: 1200px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <img src="img/jttg_tm_jtny_dgqy.png" style="position: absolute;top: 27%;left: 25%;width: 100px;height: 200px;"/>
+    <img src="img/jttg_tm_jtbb.png" style="position: absolute;top: 27%;left: 32%;width: 100px;height: 200px;"/>
+    <img src="img/jttg_tm_czh.png" style="position: absolute;top: 38%;left: 37%;width: 100px;height: 200px;"/>
+    <img src="img/jttg_tm_swbk.png" style="position: absolute;top: 52.5%;left: 36%;width: 100px;height: 170px;"/>
+    <img src="img/jttg_tm_jtbk.png" style="position: absolute;top: 60%;left: 29%;width: 100px;height: 170px;"/>
+    <img src="img/jttg_tm_jrbk.png" style="position: absolute;top: 53.5%;left: 23%;width: 100px;height: 170px;"/>
+    <img src="img/jttg_tm_xtlsny.png" style="position: absolute;top: 40%;left: 21%;width: 100px;height: 170px;"/>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      function number_format(number, decimals, dec_point, thousands_sep) {
+        /*
+         * 参数说明：
+         * number：要格式化的数字
+         * decimals：保留几位小数
+         * dec_point：小数点符号
+         * thousands_sep：千分位符号
+         * */
+        number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.ceil(n * k) / k;
+          };
+
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        var re = /(-?\d+)(\d{3})/;
+        while(re.test(s[0])) {
+          s[0] = s[0].replace(re, "$1" + sep + "$2");
+        }
+
+        if((s[1] || '').length < prec) {
+          s[1] = s[1] || '';
+          s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+      }
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: '#1e1e44',
+        title: {
+          text: '各版块信息展示',
+          left: 'center',
+          textStyle: {
+            color: "white"
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function(params) {
+            return params['name'] + "<br />资产:" + number_format(params['data']['dataset']['zichan'], 2, '.', ',') + "<br />利润:" + number_format(params['data']['dataset']['lirun'], 2, '.', ',');
+          }
+        },
+        legend: {
+          orient: 'vertical',
+          x: 'left',
+          data: ['集团', '城镇化', '水务板块', '交通板块', '金融板块', '清洁能源板块', '火电板块'],
+          textStyle: {
+            color: '#fff'
+          },
+          show:false,
+        },
+        series: [
+          // {
+          //     name:'访问来源',
+          //     type:'pie',
+          //     selectedMode: 'single',
+          //     radius: [0, '30%'],
+
+          //     label: {
+          //         normal: {
+          //             position: 'inner'
+          //         }
+          //     },
+          //     labelLine: {
+          //         normal: {
+          //             show: false
+          //         }
+          //     },
+          //     data:[
+          //         {value:335, name:'直达', selected:true},
+          //         {value:679, name:'营销广告'},
+          //         {value:1548, name:'搜索引擎'}
+          //     ]
+          // },
+          {
+            name: '集团板块',
+            type: 'pie',
+            radius: ['5%', '55%'],
+            label: {
+              normal: {
+                //formatter: '{a|{b}}{abg|}\n{hr|}\n  {b|资产：}{c}  {per|{d}%}\n {b|利润：}100  {per|10%} ',
+                formatter: function(params) {
+                  return "{a|" + params['name'] + "}\n{hr|}\n{b|资产:}{pre|" + number_format(params['data']['dataset']['zichan'], 2, '.', ',') + "}\n{b|利润:}{pre|" + number_format(params['data']['dataset']['lirun'], 2, '.', ',') + "}"
+                },
+                backgroundColor: '#000',
+                borderColor: '#aaa',
+                borderWidth: 1,
+                borderRadius: 4,
+                // shadowBlur:3,
+                // shadowOffsetX: 2,
+                // shadowOffsetY: 2,
+                // shadowColor: '#999',
+                // padding: [0, 7],
+                rich: {
+                  a: {
+                    color: '#fff',
+                    lineHeight: 22,
+                    align: 'center',
+                    fontSize: 20
+                    //backgroundColor:'#000'
+                  },
+                  // abg: {
+                  //     backgroundColor: '#333',
+                  //     width: '100%',
+                  //     align: 'right',
+                  //     height: 22,
+                  //     borderRadius: [4, 4, 0, 0]
+                  // },
+                  hr: {
+                    borderColor: '#aaa',
+                    width: '100%',
+                    borderWidth: 0.5,
+                    height: 0
+                  },
+                  b: {
+                    fontSize: 20,
+                    lineHeight: 33,
+                    align: 'left',
+                    color: '#fff',
+                  },
+                  pre: {
+                    color: '#fff',
+                    backgroundColor: '#334455',
+                    padding: [2, 4],
+                    borderRadius: 2,
+                    fontSize: 16
+                  }
+                }
+              }
+            },
+            data: [{
+                value: 100,
+                dataset: {
+                  zichan: 95025,
+                  lirun: 78545
+                },
+                name: '集团',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+                    //                  color: {
+                    //                    repeat: 'repeat',
+                    //                    image: (function() {
+                    //                      var img = new Image();
+                    //                      img.src = 'img/jttg_jtbb.png';
+                    //                      img.style.width = 30;
+                    //                      img.style.height = 30;
+                    //                      return img
+                    //                    })(),                      
+                    //                  },
+                    color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 98486541616,
+                  lirun: 616151616
+                },
+                name: '城镇化',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_czh.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+                  borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 9848654654684651616,
+                  lirun: 557616
+                },
+                name: '水务板块',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_swbk.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 64645610,
+                  lirun: 54684615
+                },
+                name: '交通板块',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_jtbk.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 674684615,
+                  lirun: 49784951656468
+                },
+                name: '金融板块',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_jrbk.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 84651516,
+                  lirun: 685165203
+                },
+                name: '清洁能源板块',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_xtlsny.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              },
+              {
+                value: 100,
+                dataset: {
+                  zichan: 645165656,
+                  lirun: 5874651656
+                },
+                name: '火电板块',
+                label: {
+                  //   backgroundColor:{
+                  //         color:'#fff'
+                  //         //image:(function(){var img = new Image();img.src = 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3844842414,292040484&fm=58';img.width = 50;img.height = 50;return img})(),
+                  //     },
+                  normal: {
+                    textStyle: {
+                      color: "#fff"
+                    }
+                  },
+                },
+                itemStyle: {
+                  normal: {
+//                  color: {
+//                    repeat: 'repeat',
+//                    image: (function() {
+//                      var img = new Image();
+//                      img.src = 'img/jttg_jtny_dgqy.png';
+//                      img.style.width = 30;
+//                      img.style.height = 30;
+//                      return img
+//                    })(),
+//                  },
+color: '#1e1e44',
+borderColor: '#1e1eff',
+                  borderWidth: 5
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      //    var timer = 0;
+      //
+      //    var total = option.xAxis.data.length;
+      //    var count = 0;
+      //    //var tooltip = myChart.component.tooltip;
+      //    var mTime = setInterval(function() {
+      //      myChart.dispatchAction({
+      //        type: 'showTip',
+      //        seriesIndex: 0,
+      //        dataIndex: count
+      //      });
+      //      count++;
+      //      if(count > total) {
+      //        count = 0;
+      //      }
+      //    }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

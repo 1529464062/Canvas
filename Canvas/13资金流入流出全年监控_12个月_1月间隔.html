@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {
+              pixelRatio: 5
+            }
+          }
+        },
+        title: [{
+            text: '2018年资金流入流出量监控',
+            left: 'center',
+            textStyle: {
+              color: "white"
+            }
+          },
+          {
+            subtext: '年累计流入金额:200亿元;年累计流出金额：100亿元',
+            subtextStyle: {
+              //fontStyle:'bold',
+              color: "white",
+              fontSize: '15'
+            },
+            left: 240,
+            top: 25
+          },
+        ],
+        tooltip: {
+          trigger: 'axis',
+          formatter: function(data) {
+            var XValue = data[0]["axisValue"];
+            var AName = data[0]["seriesName"];
+            var AValue = data[0]["value"];
+            var BName = data[1]["seriesName"];
+            var BValue = data[1]["value"];
+            return XValue + '月<br/>' + AName + ':' + AValue + '<br/>' + BName + ':' + BValue + '<br/>资金差值:' + Math.abs(AValue - BValue).toFixed(2) + '元';
+          }
+          //formatter:'{b}月<br/>{a0}  : {c0}%<br/>{a1}  :{c1}%<br/>资金差值  : {c0}-{c1} 千亿美元'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+          data: ['资金流入量', '资金流出量'],
+          textStyle: {
+            color: "#fff"
+          },
+          //backgroundColor:'white'
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          //        name: '月份',
+          //        nameLocation:'center',//显示的位置
+          // axisTick: {
+          //     alignWithLabel: true,
+          //     interval: 0
+          // },
+          // nameLocation:'bottom',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: true, //是否显示坐标轴线
+            //symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle: {
+              color: 'white' //轴线颜色
+            }
+          },
+          axisLabel: {
+            formatter: '{value}',
+            show: true, //是否显示刻度标签
+            color: 'white', //标签文本颜色
+            fontSize: 12, //标签文字大小
+          },
+          data: ["去年12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '15%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        yAxis: [{
+            type: 'value',
+            scale: true,
+            name: "金额(亿元)",
+            nameLocation: 'end', //显示的位置
+            //min: 0,
+            splitLine: {
+              show: true
+            },
+            axisLine: {
+              show: true, //是否显示坐标轴线
+              //symbol:['none', 'arrow'],//只有终点显示箭头
+              lineStyle: {
+                color: 'white' //轴线颜色
+              }
+            },
+            axisLabel: {
+              formatter: '{value}',
+              show: true, //是否显示刻度标签
+              color: 'white', //标签文本颜色
+              fontSize: 12, //标签文字大小
+            },
+          },
+          // {
+          //     type: 'value',
+          //     name: '千亿美元',
+          //     //max:20,
+          //     splitLine: {
+          //         show: false
+          //     }
+          // }
+        ],
+        series: [{
+            name: '资金流入量',
+            type: 'line',
+            //stack: '总量',
+            smooth: true,
+            lineStyle: {
+              normal: {
+                color: 'red',
+                width: 4
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                color: 'white'
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: 'red',
+                opacity: 0.3
+              }
+            },
+            data: [100, 20, 1, 200, 100, 178, 73, 19.6, 20.79, null, null, null, null],
+          },
+          {
+            name: '资金流出量',
+            type: 'line',
+            yAxisIndex: 0,
+            lineStyle: {
+              normal: {
+                color: 'blue',
+                width: 4
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                color: 'white'
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: 'blue',
+                opacity: 0.3
+              }
+            },
+            // markArea: {
+            //     zlevel:3,
+            //     data: [[{
+            //         name: '中层',
+            //         xAxis: 2000,
+            //     }, {
+            //         xAxis: 2016,
+            //     }]]
+            // },
+            smooth: true,
+            //stack: '总量',
+            // areaStyle: {
+            //     normal: {
+            //         opacity: 0.3
+            //     }
+            // },
+            //          lineStyle: {
+            //              normal: {
+            //                  type: 'dashed',
+            //              },
+            //          },
+            data: [30, 200, 100, 110, 120, 160, 173, 160, 100, null, null, null, null],
+          },
+
+          // {
+          //     name: '净出口（右轴）',
+          //     type: 'bar',
+          //     itemStyle: {
+          //         opacity: 0.3
+          //     },
+          //     yAxisIndex: 0,
+          //     //         markArea:{
+          //     //             data:[
+          //     //     {
+          //     //         name: '两个屏幕坐标之间的标域',
+          //     //         x: '100',
+          //     //         y: '100'
+          //     //     }, {
+          //     //         x: '90%',
+          //     //         y: '10%'
+          //     //     }
+          //     // ]z
+          //     //         },
+          //     data: [10,  20, 30, -0.85, -1.22, -1.14, -1.25, -1.41, -2.15,
+          // -2.88, -4.03, -3.9 , -4.51, -5.19, -6.32, -7.45, -8.06, -7.11,
+          // -6.81, -3.73, -4.31, -4.45, -4.26, -3.5 , -3.74, -4.35, -4.52],
+          // },
+          // {
+          //     name: '1/2的指数',
+          //     type: 'line',
+          //     data: [1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/256, 1/512]
+          // }
+        ]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      var timer = 0;
+
+      var total = option.xAxis.data.length;
+      var count = 0;
+      //var tooltip = myChart.component.tooltip;
+      var mTime = setInterval(function() {
+        myChart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: count
+        });
+        count++;
+        if(count > total) {
+          count = 0;
+        }
+        if(option.series[0].data[count] == null) {
+          count = 0;
+        }
+      }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>

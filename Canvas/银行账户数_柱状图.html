@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .chart {
+        height: 500px;
+        width: 800px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="chart" class="chart">
+
+    </div>
+    <span id="hover-console"></span>
+    <span id="console"></span>
+
+    <script src="js/echarts.js"></script>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = echarts.init(document.getElementById('chart'));
+
+      option = {
+        backgroundColor: "#1e1e44",
+        title: {
+          text: '银行账户数(100)',
+          left: 'center',
+          textStyle: {
+            color: "white"
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: ['直连行', '非直连行', '内部账户'],
+          axisLine:{
+            show:true,//是否显示坐标轴线
+            symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle:{
+              color:'white'//轴线颜色
+            }
+          },
+          axisLabel:{
+            show:true,//是否显示刻度标签
+            color:'white',//标签文本颜色
+            fontSize:12,//标签文字大小
+          },
+        },
+        yAxis: {
+          type: 'value',
+          name:"数量(个)",
+          axisLine:{
+            show:true,//是否显示坐标轴线
+            symbol:['none', 'arrow'],//只有终点显示箭头
+            lineStyle:{
+              color:'white'//轴线颜色
+            }
+          },
+          axisLabel:{
+            show:true,//是否显示刻度标签
+            color:'white',//标签文本颜色
+            fontSize:12,//标签文字大小
+          },
+        },
+        series: [{
+          data: [{
+            value: 56,
+            //自定义标签样式，仅对该数据项有效
+            label: {normal:{
+                show:true,
+                position:'top',
+                color:'white'
+              }},
+            //自定义特殊 itemStyle，仅对该数据项有效
+            itemStyle: {
+              normal:{
+                color:'#FCA218'
+              }
+            }
+          }, {
+            value: 200,
+            //自定义标签样式，仅对该数据项有效
+            label: {normal:{
+                show:true,
+                position:'top',
+                color:'white'
+              }},
+            //自定义特殊 itemStyle，仅对该数据项有效
+            itemStyle: {
+              normal:{
+                color:'#B9F700'
+              }
+            }
+          },{
+            value: 300,
+            //自定义标签样式，仅对该数据项有效
+            label: {
+              normal:{
+                show:true,
+                position:'top',
+                color:'white'
+              }
+            },
+            //自定义特殊 itemStyle，仅对该数据项有效
+            itemStyle: {
+              normal:{
+                color:'#8965FD',
+                
+              }
+            }
+          }],
+          type: 'bar',
+          barWidth:80
+        }]
+      };
+
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+      //    var timer = 0;
+      //
+      //    var total = option.xAxis.data.length;
+      //    var count = 0;
+      //    //var tooltip = myChart.component.tooltip;
+      //    var mTime = setInterval(function() {
+      //      myChart.dispatchAction({
+      //        type: 'showTip',
+      //        seriesIndex: 0,
+      //        dataIndex: count
+      //      });
+      //      count++;
+      //      if(count > total) {
+      //        count = 0;
+      //      }
+      //    }, 1000);
+
+      //  var zRender = myChart.getZrender();
+      //  //mousemove和mouseout总是成对出现，而且out先出现。。。。所以没法解决鼠标hover时暂停自动tip的效果
+      //  zRender.on('mousemove', function (param) {
+      //      console.log('move')
+      //      if (timer) {
+      //          clearInterval(timer);
+      //          timer = 0;
+      //      }
+      //  });
+      //  zRender.on('mouseout', function (param) {
+      //      console.log('OUT');
+      //      if (param.event) {
+      //          //判断坐标是否在图表上，然后在处理应该可以实现
+      //          if (!timer) {
+      //              autoTip();
+      //          }
+      //      }
+      //  });
+    </script>
+  </body>
+
+</html>
